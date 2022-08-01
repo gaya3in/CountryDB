@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <title>Country State City Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/main.css' %}">
+    <script type="text/javascript">
+
+        function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getToken('csrftoken');
+     </script>
+</head>
+<body>
+   <nav class="navbar bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img id="user_img" src="{% static '/images/github.png' %}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      <b>🌍 Country State City DB Demo<b>
+    </a>
+  </div>
+</nav>
+        <div id="country_div" class="col-lg-4">
+            <div>
+                <form>
+                    <label style="text-align: center;" class="form-control"><b>Countries</b></label>
+                    <hr>
+                    <input id="search_country" type="text" class="form-control" onkeyup="search_countries()" placeholder="Search Countries">
+                </form>
+            </div>
+            <br>
+            <div id="country_list">
+               <ul id="country_ul" class="list-group list-group-item-small">
+                 {% for country in countries %}
+                         <li class="list-group-item list-group-item-primary">
+                               <sub> {{country.iso2}}</sub>
+                               <b style="font-size: 15px; margin-right: 5px;">{{country.name}}</b>
+                               {{country.iso2}}
+                             <span id="buttonspan">
+                                 <button id="btn_img" data-country={{country.country_id}} data-action="country_details" class="rounded-circle get-country-details"></button>
+                                 <button data-country={{country.country_id}} data-action="states" class="rounded-circle data get-country-data"></button>
+                             </span>
+                         </li>
+                 {% endfor %}
+              </ul>
+            </div>
+        </div>
+        <div id="state_div" class="col-lg-4">
+               <div>
+                <form>
+                    <label style="text-align: center;" class="form-control"><b>States</b></label>
+                    <hr>
+                    <input id="search_state" type="text" class="form-control" placeholder="Search States">
+                </form>
+            </div>
+            <br>
+              <div id="state_list">
+                     <ul id="state_ul" class="list-group list-group-item-small">
+                     </ul>
+            </div>
+        </div >
+        <div id="city_div" class="col-lg-4">
+            <div>
+                <form>
+                    <label style="text-align: center;" class="form-control"><b>Cities</b></label>
+                    <hr>
+                    <input id="search_city" type="text" class="form-control" placeholder="Search Cities">
+                </form>
+            </div>
+            <br>
+              <div id="city_list">
+                     <ul id="city_ul" class="list-group list-group-item-small">
+                     </ul>
+            </div>
+        </div>
+        <textarea style="display: none;" id="copy_text"></textarea>
+      <!-- Modal -->
+        <div class="modal" id="details_modal" role="dialog">
+             <div class="modal-dialog">
+                 <!-- Modal content-->
+                 <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="btn-mod-close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <pre><div id="modal-details" class="modal-body  modal-dialog-scrollable">
+
+                  </div></pre>
+                  <div class="modal-footer">
+                   <button type="button" class="btn btn-primary btn-copy" onclick="copyMeOnClipboard()">Copy 📋</button>
+                  </div>
+                 </div>
+             </div>
+        </div>
+    <textarea id="copytext"></textarea>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+     <script type="text/javascript" src="{% static 'JS/app.js' %}"></script>
+
+<script type="text/javascript">
+        function search_countries() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("search_country");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("country_ul");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("b")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    console.log("-1")
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+    function copyMeOnClipboard() {
+      const copyText = document.getElementById("modal-details").textContent;
+      textArea = document.getElementById("copytext");
+      textArea.textContent = copyText;
+      document.body.append(textArea);
+      textArea.setSelectionRange(0, 99999);
+      textArea.select();
+      document.execCommand("copy");
+      $('.btn-copy').text('Copied 🎉');
+      $('.btn-copy').addClass('opacity-50 cursor-not-allowed');
+
+       setTimeout(() => {
+        $('.btn-copy').text('Copy 📋');
+        $('.btn-copy').removeClass('opacity-50 cursor-not-allowed');
+      }, 3000);
+    }
+
+    </script>
+
+</body>
+</html>

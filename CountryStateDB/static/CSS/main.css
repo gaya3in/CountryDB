@@ -1,0 +1,105 @@
+#user_img
+{
+ width: 25px;
+ height: 30px;
+ margin-right: 15px;
+ display: inline-block;
+}
+
+#country_div {
+  float:left;
+  width: 35%;
+  border: 3px solid grey;
+  padding: 5px;
+  margin : 3px;
+}
+
+#state_div {
+  float:left;
+  width: 33%;
+  border: 3px solid grey;
+  padding: 5px;
+  margin: 2px;
+}
+
+#city_div {
+  float:right;
+  width: 31%;
+  border: 3px solid grey;
+  padding: 5px;
+  margin : 1px;
+}
+
+.col-lg-4
+{
+ margin-top: 10px;
+}
+
+.rounded-circle
+{
+ width : 20px;
+ height: 20px;
+}
+
+.get-country-details, .get-state-details, .get-city-details{
+  background-image: url('/static/images/info2.png') ;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+.get-country-data, .get-state-data{
+  background-image: url('/static/images/arrow.png') ;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#buttonspan
+{
+ float:right;
+}
+
+.get-country-details, .get-country-data, .get-state-details, .get-state-data, .get-city-details{
+  position: relative;
+  display: inline-block;
+  margin-right: 3px;
+}
+/* Tooltip text */
+.get-country-details #co-details, .get-country-data #state-data,
+.get-state-details #st-details, .get-state-data #st-data, .get-city-details #ci-details
+{
+  visibility: hidden;
+  width: 80px;
+  font-size: 10px;
+  background-color: purple;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+}
+
+.get-country-details:hover #co-details, .get-country-data:hover #state-data,
+.get-state-details:hover #st-details, .get-state-data:hover #st-data,
+.get-city-details:hover #ci-details
+  {
+  visibility: visible;
+}
+
+.modal-body{
+  background-color: rgb(28,29,33);
+  color: rgb(192,197,206);
+  padding: 5px;
+  border-radius: 6px;
+  float: center;
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  margin: 15px;
+}
+
+#copytext
+{
+    opacity: .01;
+    height:0;
+    position:absolute;
+    z-index: -1;
+}
