@@ -169,8 +169,8 @@ json_data = json.loads(data)
 # Connect Database
 mydb = mysql.connector.connect(
   host="localhost",
-  user="root",
-  password="Simjay3#",
+  user="test",
+  password="123456",
   database="countrydb",
   auth_plugin='mysql_native_password'
 )
